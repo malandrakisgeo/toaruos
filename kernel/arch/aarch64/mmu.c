@@ -641,10 +641,11 @@ void mmu_set_directory(union PML * new_pml) {
 	this_core->current_pml = new_pml;
 	uintptr_t pml_phys = mmu_map_to_physical(new_pml, (uintptr_t)new_pml);
 
+	//QST: Does this work on x86?
 	asm volatile (
-		"msr TTBR0_EL1,%0\n"
+		"msr TTBR0_EL1,%0\n" //Translation Table Base Register 
 		"msr TTBR1_EL1,%0\n"
-		"isb sy\n"
+		"isb \n" //Instruction Synchronization Barrier. sy unnecessary as default.
 		"dsb ishst\n"
 		"tlbi vmalle1is\n"
 		"dsb ish\n"

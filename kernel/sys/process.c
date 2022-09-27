@@ -113,10 +113,10 @@ void switch_next(void) {
 	/* Get the next available process, discarded anything in the queue
 	 * marked as finished. */
 	do {
-		this_core->current_process = next_ready_process();
-	} while (this_core->current_process->flags & PROC_FLAG_FINISHED);
+		this_core->current_process = next_ready_process(); 
+	} while (this_core->current_process->flags & PROC_FLAG_FINISHED); //TODO: one could perhaps do this check in the next_ready_process?
 
-	this_core->current_process->time_in = arch_perf_timer();
+	this_core->current_process->time_in = arch_perf_timer(); //QST: will this even work on x86?
 	this_core->current_process->time_switch = this_core->current_process->time_in;
 
 	/* Restore paging and task switch context. */
@@ -156,7 +156,7 @@ extern void * _ret_from_preempt_source;
  * @param reschedule Non-zero if this process should be added to the ready queue.
  */
 void switch_task(uint8_t reschedule) {
-
+ //HERE WE WERE
 	/* switch_task() called but the scheduler isn't enabled? Resume... this is probably a bug. */
 	if (!this_core->current_process) return;
 
@@ -687,7 +687,7 @@ volatile process_t * next_ready_process(void) {
 
 	node_t * np = list_dequeue(process_queue);
 
-	if ((uintptr_t)np < 0xFFFFff0000000000UL || (uintptr_t)np > 0xFFFFfff000000000UL) {
+	if ((uintptr_t)np < KERNEL_HEAP_START || (uintptr_t)np > 0xFFFFfff000000000UL) {  //TODO: Ti fash me auto?
 		arch_fatal_prepare();
 		printf("Suspicious pointer in queue: %#zx\n", (uintptr_t)np);
 		arch_dump_traceback();

@@ -16,7 +16,7 @@ int open(const char *name, int flags, ...) {
 	if (flags & O_CREAT) mode = va_arg(argp, int);
 	va_end(argp);
 
-	result = syscall_open(name, flags, mode);
+	result = syscall_open(name, flags, mode); //Einai to idio function? An nai, poses fores kaleitai...?
 	if (result == -1) {
 		/* Not sure this is necessary */
 		if (flags & O_CREAT) {

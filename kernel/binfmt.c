@@ -131,7 +131,7 @@ int exec(const char * path, int argc, char *const argv[], char *const env[], int
 }
 
 /**
- * This is generally only called by system startup code to launch /bin/init.
+ * This is generally only called by system startup code to launch /bin/init. //TODO: Vres pws dhmiourgeitai to /bin/init
  * Copies arguments from kernel constants into the heap, sets up a new MMU context
  * from the kernel boot context, and then calls @ref exec.
  */

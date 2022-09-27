@@ -37,7 +37,7 @@ extern void modules_install(void);
 
 void generic_startup(void) {
 	args_parse(arch_get_cmdline());
-	initialize_process_tree();
+	initialize_process_tree(); //HERE WE ARE!
 	shm_install();
 	vfs_install();
 	tarfs_register_init();
